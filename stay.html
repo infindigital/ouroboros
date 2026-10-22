@@ -7,6 +7,7 @@
 <meta name="description" content="Warm, thoughtfully designed rooms in Koksar with room heating, attached bathrooms, hot water, Wi-Fi, mountain view balconies and a scenic bathtub overlooking the river. Book direct on +91 78766 55220.">
 <meta name="theme-color" content="#A11F21">
 <link rel="icon" href="assets/img/favicon.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.13/dist/lenis.css">
 <link rel="preload" href="assets/fonts/Gloock.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/style.css">
@@ -16,7 +17,7 @@
 <header class="nav" id="top">
   <div class="wrap">
     <a href="index.html" class="brand" aria-label="Ouroboros Hospitality home">
-      <img class="brand__badge" src="assets/img/logo-white-badge.png" alt="Ouroboros Koksar" width="64" height="64">
+      <span class="brand__logo"><img class="brand__img brand__img--light" src="assets/img/logo-horizontal-light.png" alt="Ouroboros Hospitality" width="1200" height="293"><img class="brand__img brand__img--color" src="assets/img/logo-horizontal.png" alt="" aria-hidden="true" width="1200" height="293"></span>
     </a>
     <ul class="nav__links">
       <li><a href="index.html">Home</a></li>
@@ -34,7 +35,6 @@
 </header>
 
 <nav class="menu" aria-label="Mobile">
-  <img class="menu__ring" src="assets/img/ring-cream.png" alt="">
   <ul class="menu__links">
     <li><a href="index.html">Home <small>01</small></a></li>
     <li><a href="stay.html">Stay <small>02</small></a></li>
@@ -75,14 +75,14 @@
           <span class="eyebrow" data-reveal><span class="tag-index">(01)</span> Our rooms</span>
           <h2 class="h2" data-split>Pick your <em>window.</em></h2>
         </div>
-        <p class="muted" data-reveal>Every room is designed to make the most of its setting. Call or WhatsApp us for availability and the best direct rate.</p>
+        <p class="muted" data-reveal>Every room is designed to make the most of its setting. Call or WhatsApp us for availability and rates.</p>
       </div>
 
       <div class="rrows">
         <article class="rrow" id="suite">
           <div class="rrow__media" data-reveal data-cursor="View">
             <a href="assets/img/new/suite-view.jpg" data-lb data-cap="The Mountain Suite"><img data-speed="8" src="assets/img/new/suite-view.jpg" alt="Suite with a red bed, rattan lamps and glass doors to a mountain view balcony" loading="lazy"></a>
-            <span class="chip chip--red">New</span>
+            <span class="chip chip--red">Suite</span>
           </div>
           <div data-reveal>
             <span class="tag-index">01</span>
@@ -101,7 +101,7 @@
         <article class="rrow" id="balcony">
           <div class="rrow__media" data-reveal data-cursor="View">
             <a href="assets/img/room-balcony.jpg" data-lb data-cap="The Balcony Room"><img data-speed="8" src="assets/img/room-balcony.jpg" alt="Balcony room with a coral bed and floor to ceiling windows facing the mountains" loading="lazy"></a>
-            <span class="chip">Most loved</span>
+            <span class="chip">Balcony</span>
           </div>
           <div data-reveal>
             <span class="tag-index">02</span>
@@ -194,16 +194,16 @@
       <div class="amen amen--light">
         <div class="amen__card" data-reveal><span class="amen__icon"><svg><use href="#i-heat"/></svg></span><div><h3>Room Heating</h3><p>Stay warm and comfortable during chilly mountain nights.</p></div></div>
         <div class="amen__card" data-reveal><span class="amen__icon"><svg><use href="#i-bath"/></svg></span><div><h3>Attached Bathrooms</h3><p>Enjoy privacy and everyday convenience.</p></div></div>
-        <div class="amen__card" data-reveal><span class="amen__icon"><svg><use href="#i-water"/></svg></span><div><h3>Geyser &amp; Hot Water</h3><p>Refresh with a warm shower after a day of exploring.</p></div></div>
-        <div class="amen__card" data-reveal><span class="amen__icon"><svg><use href="#i-kettle"/></svg></span><div><h3>Electric Kettle</h3><p>A warm cup of tea or coffee at your convenience.</p></div></div>
+        <div class="amen__card" data-reveal><span class="amen__icon"><svg><use href="#i-water"/></svg></span><div><h3>Geyser &amp; Hot Water</h3><p>Refresh yourself with a warm shower after a day of exploring.</p></div></div>
+        <div class="amen__card" data-reveal><span class="amen__icon"><svg><use href="#i-kettle"/></svg></span><div><h3>Electric Kettle</h3><p>Enjoy a warm cup of tea or coffee at your convenience.</p></div></div>
         <div class="amen__card amen__card--accent" data-reveal><span class="amen__icon"><svg><use href="#i-view"/></svg></span><div><h3>Scenic Bathtub Experience</h3><p>Unwind in a bathtub overlooking the river and the mountains.</p></div></div>
         <div class="amen__card" data-reveal><span class="amen__icon"><svg><use href="#i-wifi"/></svg></span><div><h3>Wi-Fi Connectivity</h3><p>Stay connected while enjoying the mountains.</p></div></div>
         <div class="amen__card" data-reveal><span class="amen__icon"><svg><use href="#i-sparkle"/></svg></span><div><h3>Housekeeping</h3><p>Clean, tidy and well maintained rooms.</p></div></div>
         <div class="amen__card" data-reveal><span class="amen__icon"><svg><use href="#i-parking"/></svg></span><div><h3>On-site Parking</h3><p>Convenient parking for guests travelling by road.</p></div></div>
         <div class="amen__card" data-reveal><span class="amen__icon"><svg><use href="#i-bell"/></svg></span><div><h3>Room Service</h3><p>Added convenience throughout your stay.</p></div></div>
-        <div class="amen__card amen__card--wide amen__card--accent" data-reveal><span class="amen__icon"><svg><use href="#i-flame"/></svg></span><div><h3>Bonfire Facility</h3><p>Cosy evenings around a bonfire in the crisp mountain air.</p></div></div>
+        <div class="amen__card amen__card--wide amen__card--accent" data-reveal><span class="amen__icon"><svg><use href="#i-flame"/></svg></span><div><h3>Bonfire Facility</h3><p>Enjoy cosy evenings around a bonfire in the crisp mountain air.</p></div></div>
         <div class="amen__card" data-reveal><span class="amen__icon"><svg><use href="#i-mountain"/></svg></span><div><h3>Mountain Views &amp; Balcony</h3><p>Take in the beautiful Himalayan landscape.</p></div></div>
-        <div class="amen__card" data-reveal><span class="amen__icon"><svg><use href="#i-cup"/></svg></span><div><h3>Optional Breakfast</h3><p>Available on request at an additional charge.</p></div></div>
+        <div class="amen__card" data-reveal><span class="amen__icon"><svg><use href="#i-cup"/></svg></span><div><h3>Optional Breakfast</h3><p>Start your day with a comforting breakfast, available on request at an additional charge.</p></div></div>
         <div class="amen__card" data-reveal><span class="amen__icon"><svg><use href="#i-bowl"/></svg></span><div><h3>Authentic Himachali Cuisine</h3><p>Traditional local Himachali flavours, freshly prepared on request at an additional charge.</p></div></div>
         <a href="tel:+917876655220" class="amen__card amen__card--wide" data-reveal style="background:var(--ink);color:var(--cream);border-color:var(--ink)">
           <span class="amen__icon" style="background:var(--red);color:var(--cream)"><svg><use href="#i-phone"/></svg></span>
@@ -268,9 +268,8 @@
   </section>
 
   <section class="cta">
-    <div class="cta__ring"><img src="assets/img/ring-cream.png" alt=""></div>
     <div class="wrap">
-      <span class="eyebrow" data-reveal><span class="dot" style="background:var(--cream)"></span>Best rates when you book direct</span>
+      <span class="eyebrow" data-reveal><span class="dot" style="background:var(--cream)"></span>Your Himalayan escape awaits</span>
       <h2 class="display cta__title" data-split style="margin-top:16px">Your room is <em>waiting.</em></h2>
       <div class="cta__row" data-reveal>
         <a class="btn btn--light" href="tel:+917876655220" data-magnetic><svg><use href="#i-phone"/></svg>Book directly</a>
@@ -285,7 +284,7 @@
   <div class="wrap">
     <div class="foot__grid">
       <div class="foot__brand">
-        <img src="assets/img/logo-white-badge.png" alt="Ouroboros" width="96" height="96" loading="lazy" style="border-radius:50%">
+        <img class="foot__logo" src="assets/img/logo-horizontal-light.png" alt="Ouroboros Hospitality" width="1200" height="293" loading="lazy">
         <p>Born from Friendship. Built for Belonging. A mountain home just beyond the Atal Tunnel in Koksar, Lahaul.</p>
       </div>
       <div>

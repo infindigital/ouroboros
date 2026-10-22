@@ -124,9 +124,16 @@ html.no-loader .loader{display:none}
 .nav.is-scrolled{height:68px;background:rgba(255,253,249,.86);backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3);color:var(--ink);box-shadow:0 1px 0 var(--line)}
 .nav.is-hidden{transform:translateY(-100%)}
 .brand{justify-self:start;display:flex;align-items:center}
-.brand__badge{width:56px;height:56px;border-radius:50%;transition:transform 1.2s var(--ease), width .5s var(--ease), height .5s var(--ease)}
-.brand:hover .brand__badge{transform:rotate(-30deg)}
-.nav.is-scrolled .brand__badge{width:46px;height:46px}
+.brand__logo{position:relative;display:block;height:58px;aspect-ratio:1200/293;transition:height .5s var(--ease), transform .6s var(--ease)}
+.brand__img{position:absolute;inset:0;width:100%;height:100%;transition:opacity .5s}
+.brand__img--light{filter:drop-shadow(0 2px 12px rgba(0,0,0,.35))}
+.brand__img--color{opacity:0}
+.nav.is-scrolled .brand__img--light{opacity:0}
+.nav.is-scrolled .brand__img--color{opacity:1}
+body.menu-open .nav .brand__img--light{opacity:1}
+body.menu-open .nav .brand__img--color{opacity:0}
+.brand:hover .brand__logo{transform:translateY(-1px)}
+.nav.is-scrolled .brand__logo{height:48px}
 .nav__links{display:flex;gap:4px;list-style:none}
 .nav__links a{position:relative;display:block;padding:8px 14px;font-size:14px;font-weight:500;letter-spacing:.02em}
 .nav__links a::after{content:"";position:absolute;left:14px;right:14px;bottom:3px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .5s var(--ease)}
@@ -149,7 +156,6 @@ body.menu-open .nav{color:var(--bone);background:transparent;box-shadow:none;bac
 
 .menu{position:fixed;inset:0;z-index:850;background:var(--ink);color:var(--bone);clip-path:inset(0 0 100% 0);transition:clip-path 1s cubic-bezier(.77,0,.18,1);display:flex;flex-direction:column;justify-content:space-between;padding:calc(var(--nav-h) + 28px) var(--pad-x) 26px;overflow:auto}
 body.menu-open .menu{clip-path:inset(0 0 0 0)}
-.menu__ring{position:absolute;right:-28vw;bottom:-18vw;width:86vw;opacity:.07;pointer-events:none;animation:spin 60s linear infinite}
 .menu__links{list-style:none;position:relative}
 .menu__links li{overflow:hidden;border-bottom:1px solid var(--line-light)}
 .menu__links a{display:flex;justify-content:space-between;align-items:baseline;font-size:clamp(40px,11vw,76px);line-height:1.2;transform:translateY(110%);transition:transform .9s var(--ease), color .3s}
@@ -336,7 +342,6 @@ body.menu-open .menu__foot{opacity:1}
 .near__card--type{background:var(--red)}
 .near__card--ink{background:var(--ink-2)}
 .near__card--type::after,.near__card--ink::after{display:none}
-.near__ring{position:absolute;right:-35%;bottom:-20%;width:110%;opacity:.1;pointer-events:none}
 .near__top,.near__bot{position:absolute;left:22px;right:22px;z-index:2}
 .near__top{top:20px;display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
 .near__km{font-family:var(--f-display);font-weight:300;font-size:clamp(46px,4vw,62px);line-height:.9;letter-spacing:-.03em}
@@ -425,8 +430,6 @@ body.menu-open .menu__foot{opacity:1}
 
 /* quote */
 .quote{text-align:center;overflow:hidden}
-.quote__ring{position:absolute;left:50%;top:50%;width:min(92vw,700px);aspect-ratio:1;transform:translate(-50%,-50%);opacity:.08;pointer-events:none}
-.quote__ring img{width:100%;height:100%;animation:spin 90s linear infinite}
 .quote blockquote{position:relative;font-size:clamp(34px,5vw,80px);line-height:1.08;max-width:1100px;margin:0 auto}
 .quote cite{display:block;margin-top:28px;font-style:normal;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;opacity:.65}
 
@@ -452,9 +455,8 @@ body.menu-open .menu__foot{opacity:1}
 
 /* CTA */
 .cta{position:relative;overflow:hidden;background:var(--red);color:var(--bone);padding:clamp(72px,10vw,150px) 0}
-.cta__ring{position:absolute;right:-14vw;top:50%;width:min(70vw,820px);aspect-ratio:1;transform:translateY(-50%);opacity:.1;pointer-events:none}
-.cta__ring img{width:100%;height:100%;animation:spin 70s linear infinite}
 .cta__title{position:relative;font-size:clamp(46px,8vw,132px);line-height:1;max-width:14ch}
+.cta__lead{position:relative;max-width:46ch;margin-top:clamp(16px,2vw,24px);font-size:clamp(16px,1.3vw,19px);line-height:1.6;color:rgba(255,253,249,.82)}
 .cta__title em{color:var(--blush)!important}
 .cta__row{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px;margin-top:clamp(28px,3.4vw,46px)}
 .cta__phone{font-size:clamp(28px,3vw,44px);line-height:1}
@@ -463,6 +465,7 @@ body.menu-open .menu__foot{opacity:1}
 /* footer */
 .foot{background:var(--ink);color:var(--bone);padding:clamp(64px,7vw,100px) 0 22px;overflow:hidden}
 .foot__grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:32px;padding-bottom:clamp(40px,5vw,72px)}
+.foot__logo{display:block;width:min(300px,100%);height:auto}
 .foot__brand p{max-width:300px;color:rgba(255,253,249,.62);margin-top:18px;font-size:15px}
 .foot h4{font-size:11px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,253,249,.45);margin-bottom:16px}
 .foot ul{list-style:none;display:grid;gap:9px;font-size:15px}
@@ -533,6 +536,7 @@ body.menu-open .menu__foot{opacity:1}
 .exp-mini__item:hover i{background:var(--red);color:var(--bone)}
 .exp-mini__item svg{width:20px;height:20px}
 .exp-mini__item b{font-weight:500;font-size:15.5px;line-height:1.35}
+.exp-mini__item:last-child:nth-child(3n+2){grid-column:span 2}
 
 /* story */
 .story__cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,100px)}
@@ -548,8 +552,7 @@ body.menu-open .menu__foot{opacity:1}
 .geo__card p{color:rgba(255,253,249,.68);font-size:15px}
 .name{display:grid;grid-template-columns:auto 1fr;gap:clamp(32px,6vw,100px);align-items:center}
 .name__ring{width:clamp(220px,28vw,400px);aspect-ratio:1;position:relative}
-.name__ring img{width:100%;height:100%}
-.name__ring span{position:absolute;inset:0;display:grid;place-items:center;font-size:clamp(20px,2.4vw,32px);letter-spacing:.16em;color:var(--red)}
+.name__ring img{width:100%;height:100%;object-fit:contain}
 .values{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
 .values div{padding:26px;background:var(--paper)}
 .values b{display:block;font-size:30px;line-height:1.05;margin-bottom:10px;color:var(--red)}
@@ -565,7 +568,6 @@ a.c-card:hover{padding-left:10px}
 .c-card small{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
 .c-card b{font-weight:500;font-size:16.5px}
 .form{background:var(--ink);color:var(--bone);border-radius:22px;padding:clamp(24px,3.4vw,46px);position:relative;overflow:hidden}
-.form__ring{position:absolute;right:-120px;top:-120px;width:320px;opacity:.07;pointer-events:none;animation:spin 60s linear infinite}
 .form h2{font-size:clamp(36px,3.6vw,54px);line-height:1;margin-bottom:8px;position:relative}
 .form > p{color:rgba(255,253,249,.62);margin-bottom:26px;position:relative;font-size:15px}
 .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;position:relative}
@@ -661,7 +663,8 @@ a.c-card:hover{padding-left:10px}
   .hx__cell:nth-child(3){display:none}
   .hx__cell{padding-top:12px;padding-bottom:14px;font-size:13px}
   .hx__main{padding-bottom:22px}
-  .brand__badge{width:48px;height:48px}
+  .brand__logo{height:44px}
+  .nav.is-scrolled .brand__logo{height:40px}
   .nav__cta .btn{display:none}
   .amen{grid-template-columns:1fr}
   .amen__card--wide{grid-column:auto}
@@ -669,6 +672,7 @@ a.c-card:hover{padding-left:10px}
   .todo__item{grid-template-columns:auto 1fr;gap:14px;padding:18px 0}
   .todo__k{display:none}
   .exp,.exp-mini{grid-template-columns:1fr}
+  .exp-mini__item:last-child:nth-child(3n+2){grid-column:auto}
   .exp__card--wide{grid-column:auto;aspect-ratio:3/4}
   .fgrid{grid-template-columns:1fr}
   .foot__grid{grid-template-columns:1fr 1fr;gap:30px 16px}
@@ -832,7 +836,7 @@ body{background:var(--bone);color:var(--ink);font-family:var(--f-body);font-size
 /* Gloock has no italic: accents become colour, never a fake slant */
 em{font-style:normal}
 .h2 em,.h3 em,.display em,.intro__statement em,.story__big em,.rrow h3 em,.marquee__track span em,.faq summary em,.seasons__list b{color:var(--red);font-style:normal}
-.hx__title em,.phero__title em,.tub__title em,.cta__title em,.quote blockquote em,.on-dark .h2 em,.trail__text h2 em,.room-card__body h3 em,.room-card--end h3 em,.near__card h3 em,.exp__body h3 em,.dine__card h3 em,.stack__card--red h3 em,.am__item h3 em,.form h2 em,.marquee--tilt .marquee__track span em,.stack__card:not(.stack__card--sand):not(.stack__card--blush) h3 em{
+.on-dark .story__big em,.hx__title em,.phero__title em,.tub__title em,.cta__title em,.quote blockquote em,.on-dark .h2 em,.trail__text h2 em,.room-card__body h3 em,.room-card--end h3 em,.near__card h3 em,.exp__body h3 em,.dine__card h3 em,.stack__card--red h3 em,.am__item h3 em,.form h2 em,.marquee--tilt .marquee__track span em,.stack__card:not(.stack__card--sand):not(.stack__card--blush) h3 em{
   font-style:normal;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent
 }
 
@@ -967,7 +971,6 @@ html.pt-in body::before{background:var(--red)}
 .hx__veil{background:
   linear-gradient(180deg,rgba(24,18,18,.5) 0%,rgba(24,18,18,0) 22%,rgba(24,18,18,0) 40%,rgba(24,18,18,.6) 66%,rgba(24,18,18,.92) 100%),
   linear-gradient(90deg,rgba(24,18,18,.4) 0%,rgba(24,18,18,0) 60%)}
-.quote__ring,.cta__ring{opacity:.14}
 /* gradient words inside split headings: each animated word carries the fill */
 em .sw,em .sw > span{background:inherit;-webkit-background-clip:text;background-clip:text;color:inherit}
 .cta__title em,.room-card--end h3 em{color:transparent!important;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text}

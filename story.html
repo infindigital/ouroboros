@@ -7,6 +7,7 @@
 <meta name="description" content="Ouroboros Hospitality was born from the dream of five friends. A mountain home in Koksar, just beyond the Atal Tunnel, with the Pir Panjal behind, the Western Himalayas ahead and the Chandra River below.">
 <meta name="theme-color" content="#A11F21">
 <link rel="icon" href="assets/img/favicon.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.13/dist/lenis.css">
 <link rel="preload" href="assets/fonts/Gloock.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/style.css">
@@ -16,7 +17,7 @@
 <header class="nav" id="top">
   <div class="wrap">
     <a href="index.html" class="brand" aria-label="Ouroboros Hospitality home">
-      <img class="brand__badge" src="assets/img/logo-white-badge.png" alt="Ouroboros Koksar" width="64" height="64">
+      <span class="brand__logo"><img class="brand__img brand__img--light" src="assets/img/logo-horizontal-light.png" alt="Ouroboros Hospitality" width="1200" height="293"><img class="brand__img brand__img--color" src="assets/img/logo-horizontal.png" alt="" aria-hidden="true" width="1200" height="293"></span>
     </a>
     <ul class="nav__links">
       <li><a href="index.html">Home</a></li>
@@ -34,7 +35,6 @@
 </header>
 
 <nav class="menu" aria-label="Mobile">
-  <img class="menu__ring" src="assets/img/ring-cream.png" alt="">
   <ul class="menu__links">
     <li><a href="index.html">Home <small>01</small></a></li>
     <li><a href="stay.html">Stay <small>02</small></a></li>
@@ -69,7 +69,7 @@
         <div class="story__text" style="align-self:center">
           <p class="story__big" data-reveal>We believe true hospitality lies in <em>the little things.</em></p>
           <p class="lead" data-reveal style="margin-top:22px">A welcoming smile, a peaceful morning, a thoughtful gesture and the comfort of feeling at home somewhere new. Inspired by the timeless rhythm of nature and the warmth of human connection, that is what we set out to build.</p>
-          <p class="muted" data-reveal>Our spaces are designed to make the most of their surroundings while offering the comfort and ease of a considered stay. From quiet corners to take in the views to spaces where conversations unfold over a meal or a cup of tea, every detail is meant to help you settle into the rhythm of the mountains.</p>
+          <p class="muted" data-reveal>Our spaces are designed to make the most of their surroundings while offering the comfort and ease of a considered stay. Thoughtful rooms, warm interiors, restful beds, clean and well appointed bathrooms, reliable connectivity and inviting common areas come together to create a stay that feels effortless. From quiet corners to take in the views to spaces where conversations unfold over a meal or a cup of tea, every detail is meant to help you settle into the rhythm of the mountains.</p>
         </div>
       </div>
     </div>
@@ -83,12 +83,17 @@
           <span class="eyebrow" data-reveal><span class="tag-index" style="color:var(--gold)">(02)</span> The setting</span>
           <h2 class="h2" data-split>Where mountains, river <em>and sky</em> meet.</h2>
         </div>
-        <p style="color:rgba(246,240,232,.7)" data-reveal>Located just beyond the Atal Tunnel, Koksar is where the landscape opens into something dramatic. The property offers expansive 360 degree views in every direction.</p>
+        <p style="color:rgba(246,240,232,.7)" data-reveal>Located just beyond the Atal Tunnel, Koksar is where the landscape opens into a dramatic meeting of mountains, river and sky. With the Pir Panjal range rising behind us and the great Western Himalayas unfolding ahead, the property offers expansive 360 degree views in every direction.</p>
       </div>
       <div class="geo">
         <div class="geo__card" data-reveal><svg><use href="#i-mountain"/></svg><h3>The Pir Panjal</h3><p>The great range rises right behind us, keeping watch over the valley through every season.</p></div>
         <div class="geo__card" data-reveal><svg><use href="#i-sun"/></svg><h3>The Western Himalayas</h3><p>Unfolding ahead of you, peak after peak, with light that changes by the hour.</p></div>
         <div class="geo__card" data-reveal><svg><use href="#i-river"/></svg><h3>The Chandra River</h3><p>Flowing through the valley nearby, adding a constant sense of movement and calm.</p></div>
+      </div>
+      <div class="story__text" style="max-width:880px;margin:clamp(40px,5vw,72px) 0 clamp(32px,4vw,56px)">
+        <p class="story__big" data-reveal>Koksar is more than a stop on the way to <em>the mountains.</em></p>
+        <p class="lead" data-reveal style="margin-top:22px;color:rgba(246,240,232,.78)">It is a place to pause, breathe and experience the raw beauty of Lahaul. Here, changing light moves across the peaks, the river carries the sound of the valley, and every season reveals a different character of the Himalayas.</p>
+        <p data-reveal style="margin-top:14px;color:rgba(246,240,232,.62)">Whether you arrive after crossing the Atal Tunnel, are exploring the surrounding valleys, or simply looking for a quiet escape, the setting invites you to stay a little longer.</p>
       </div>
       <div class="story__img" data-reveal style="margin-top:12px;height:clamp(280px,40vw,560px)"><img data-speed="6" src="assets/img/chandra-valley.jpg" alt="Misty Chandra valley near Koksar" loading="lazy" style="height:115%"></div>
     </div>
@@ -98,7 +103,7 @@
   <section class="sec on-light">
     <div class="wrap">
       <div class="name">
-        <div class="name__ring" data-reveal><img src="assets/img/ring-red.png" alt="" style="animation:spin 40s linear infinite"><span>OUROBOROS</span></div>
+        <div class="name__ring" data-reveal><img src="assets/img/logo-emblem.png" alt="The Ouroboros emblem: a Q circling the mountains and the sun" width="800" height="800" loading="lazy"></div>
         <div>
           <span class="eyebrow" data-reveal><span class="tag-index">(03)</span> The name</span>
           <h2 class="h2" data-split style="margin-top:14px">A circle that <em>never ends.</em></h2>
@@ -116,14 +121,12 @@
   </section>
 
   <section class="sec sec--sand quote on-light">
-    <div class="quote__ring"><img src="assets/img/ring-red.png" alt=""></div>
     <div class="wrap">
       <blockquote data-split>Ouroboros Hospitality. Where every journey finds <em style="color:var(--red)">a feeling of home.</em></blockquote>
     </div>
   </section>
 
   <section class="cta">
-    <div class="cta__ring"><img src="assets/img/ring-cream.png" alt=""></div>
     <div class="wrap">
       <span class="eyebrow" data-reveal><span class="dot" style="background:var(--cream)"></span>Come say hello</span>
       <h2 class="display cta__title" data-split style="margin-top:16px">Become part of <em>the circle.</em></h2>
@@ -140,7 +143,7 @@
   <div class="wrap">
     <div class="foot__grid">
       <div class="foot__brand">
-        <img src="assets/img/logo-white-badge.png" alt="Ouroboros" width="96" height="96" loading="lazy" style="border-radius:50%">
+        <img class="foot__logo" src="assets/img/logo-horizontal-light.png" alt="Ouroboros Hospitality" width="1200" height="293" loading="lazy">
         <p>Born from Friendship. Built for Belonging. A mountain home just beyond the Atal Tunnel in Koksar, Lahaul.</p>
       </div>
       <div>
