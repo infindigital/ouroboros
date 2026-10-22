@@ -134,17 +134,15 @@
   });
 
   /* ---------- nav ---------- */
-  var nav = $(".nav"), lastY = 0;
+  var nav = $(".nav");
   function onScroll() {
     var y = window.scrollY || window.pageYOffset;
     if (nav) {
       nav.classList.toggle("is-scrolled", y > 40);
-      if (!document.body.classList.contains("menu-open")) nav.classList.toggle("is-hidden", y > lastY && y > 500);
     }
     var past = y > window.innerHeight * 0.6;
     var bb = $(".bookbar"); if (bb) bb.classList.toggle("is-on", past);
     var wf = $(".wa-float"); if (wf) wf.classList.toggle("is-on", past);
-    lastY = y;
   }
   window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
 
