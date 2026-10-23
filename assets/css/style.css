@@ -174,12 +174,10 @@ body.menu-open .menu__foot{opacity:1}
 .hx{position:relative;height:100vh;height:100svh;min-height:580px;color:var(--bone);overflow:hidden;background:var(--ink);isolation:isolate}
 .hx__media{position:absolute;inset:0;z-index:0;will-change:transform}
 .hx__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 58%}
-/* season change: the next photo assembles from drifting shards of glass (built in main.js) */
+/* season change: a soft crossfade between the two photos */
 .hx__stage{position:absolute;inset:0;animation:hxDrift 24s ease-in-out infinite alternate}
-.hx__slide{opacity:0}
+.hx__slide{opacity:0;transition:opacity 1.4s ease-in-out}
 .hx__slide.is-on{opacity:1}
-.hx__shards{position:absolute;inset:0;z-index:2;pointer-events:none}
-.hx__shard{position:absolute;background-repeat:no-repeat;opacity:0;will-change:transform,opacity,filter;backface-visibility:hidden}
 @keyframes hxDrift{from{transform:scale(1)}to{transform:scale(1.07)}}
 [data-season-label]{display:inline-block;transition:opacity .45s,transform .45s}
 [data-season-label].is-out{opacity:0;transform:translateY(8px)}
@@ -472,8 +470,6 @@ body.menu-open .menu__foot{opacity:1}
 .foot ul{list-style:none;display:grid;gap:9px;font-size:15px}
 .foot a{transition:color .3s}
 .foot a:hover{color:var(--clay)}
-.foot__mark{display:flex;justify-content:center;padding-top:clamp(28px,4vw,56px);border-top:1px solid var(--line-light)}
-.foot__mark img{width:min(560px,86%);height:auto}
 .foot__bar{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;border-top:1px solid var(--line-light);padding-top:20px;margin-top:clamp(24px,3vw,40px);font-size:13px;color:rgba(255,253,249,.5)}
 
 /* floating controls */
@@ -1054,3 +1050,23 @@ em .sw,em .sw > span{background:inherit;-webkit-background-clip:text;background-
   .hx__row{margin-top:22px}
   .hx__actions .btn{height:50px}
 }
+
+/* ---------- live info bar (moved out of the hero, sits under the intro) ---------- */
+.livebar{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:clamp(72px,8vw,120px)}
+.livebar__cell{padding:22px 20px 24px 0;display:flex;flex-direction:column;gap:6px}
+.livebar__cell + .livebar__cell{padding-left:20px;border-left:1px solid var(--line)}
+.livebar__cell small{font-size:10.5px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold,#b8913f)}
+.livebar__cell b{font-weight:500;font-size:clamp(15px,1.25vw,18px);color:var(--ink);display:flex;align-items:center;gap:8px;line-height:1.35}
+.livebar__cell b svg{width:18px;height:18px;flex:none;color:var(--red)}
+@media (max-width:900px){
+  .livebar{grid-template-columns:1fr 1fr}
+  .livebar__cell:nth-child(3){padding-left:0;border-left:0}
+  .livebar__cell:nth-child(n+3){border-top:1px solid var(--line)}
+}
+@media (max-width:420px){
+  .livebar{grid-template-columns:1fr}
+  .livebar__cell,.livebar__cell + .livebar__cell{padding:16px 0;border-left:0}
+  .livebar__cell + .livebar__cell{border-top:1px solid var(--line)}
+}
+/* hero without the info bar: lift the copy off the bottom edge */
+@media (min-width:641px){.hx__main{padding-bottom:clamp(48px,9vh,110px)}}
