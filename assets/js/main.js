@@ -226,51 +226,92 @@
     if (!("IntersectionObserver" in window)) { sys.start(); return; }
     new IntersectionObserver(function (es) { es[0].isIntersecting ? sys.start() : sys.stop(); }).observe(el);
   }
-  $$("canvas.snow-canvas").forEach(function (c) {
-    var host = c.closest(".hx,.phero") || c.parentElement;
-    var sys = new Particles(c, { density: innerWidth < 640 ? 0.00013 : 0.00009 });
-    autoRun(sys, host);
-    host.addEventListener("mousemove", function (e) { var r = host.getBoundingClientRect(); sys.tw = ((e.clientX - r.left) / r.width - 0.5) * 2.2; });
-    host.addEventListener("mouseleave", function () { sys.tw = 0; });
-  });
   $$("canvas.petals").forEach(function (c) { autoRun(new Particles(c, { type: "petal", density: 0.00003, max: 40, min: 16, size: [5, 10], speed: 0.8 }), c.parentElement); });
 
-  /* page-wide snow, always on (silvery flakes so they read on white and on red) */
-  if (!reduce) {
-    var pc = document.createElement("canvas"); pc.className = "page-snow is-on"; pc.setAttribute("aria-hidden", "true"); document.body.appendChild(pc);
-    var ps = new Particles(pc, { density: innerWidth < 640 ? 0.00008 : 0.00006, max: 130, min: 30, size: [0.9, 2.8], speed: 0.85, col: "201,186,180" });
-    ps.start();
-    document.addEventListener("visibilitychange", function () { document.hidden ? ps.stop() : ps.start(); });
-  }
-
-  /* ---------- HERO: winter reveal + live weather ---------- */
+  /* ---------- HERO: season change (glass shards) + live weather ---------- */
   var hxEl = $(".hx");
-  if (hxEl) {
-    var rev = $(".hx__reveal", hxEl);
-    var W = hxEl.clientWidth, H = hxEl.clientHeight;
-    window.addEventListener("resize", function () { W = hxEl.clientWidth; H = hxEl.clientHeight; });
-    var bx = W * 0.7, by = H * 0.4, tx = bx, ty = by, b2x = bx, b2y = by, r = 0, tr = 0, lastMove = 0, active = true;
-    var baseR = function () { return Math.max(W, H) * (W < 640 ? 0.24 : 0.15); };
-    var point = function (x, y) { var rc = hxEl.getBoundingClientRect(); tx = x - rc.left; ty = y - rc.top; lastMove = performance.now(); tr = baseR(); };
-    hxEl.addEventListener("pointermove", function (e) { point(e.clientX, e.clientY); });
-    hxEl.addEventListener("touchmove", function (e) { var t = e.touches[0]; point(t.clientX, t.clientY); }, { passive: true });
-    hxEl.addEventListener("touchstart", function (e) { var t = e.touches[0]; point(t.clientX, t.clientY); }, { passive: true });
-    hxEl.addEventListener("pointerleave", function () { lastMove = 0; });
-    if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { active = es[0].isIntersecting; }).observe(hxEl);
-    var t0 = performance.now();
-    (function blob(now) {
-      requestAnimationFrame(blob);
-      if (!active || reduce) return;
-      if (now - lastMove > 2400) {
-        var t = (now - t0) / 1000;
-        tx = W * (0.66 + Math.sin(t * 0.38) * 0.2); ty = H * (0.38 + Math.sin(t * 0.6) * 0.12);
-        tr = baseR() * (0.8 + Math.sin(t * 1.1) * 0.12);
+  var slides = $$(".hx__slide"), seasonLabel = $("[data-season-label]"), shardBox = $(".hx__shards");
+  if (hxEl && shardBox && slides.length > 1 && !reduce && Element.prototype.animate) {
+    var cur = 0, hxVisible = true, busy = false;
+    if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { hxVisible = es[0].isIntersecting; }).observe(hxEl);
+
+    // where the photo actually sits inside the box (object-fit: cover + object-position)
+    var coverRect = function (img, W, H) {
+      var s = Math.max(W / img.naturalWidth, H / img.naturalHeight), bw = img.naturalWidth * s, bh = img.naturalHeight * s;
+      var pos = getComputedStyle(img).objectPosition.split(" ").map(function (v) { return parseFloat(v) / 100; });
+      return { w: bw, h: bh, x: (W - bw) * pos[0], y: (H - bh) * (pos[1] == null ? 0.5 : pos[1]) };
+    };
+
+    var shatterIn = function (img, done) {
+      var W = shardBox.clientWidth, H = shardBox.clientHeight, cr = coverRect(img, W, H);
+      var cols = W < 640 ? 4 : 8, rows = W < 640 ? 7 : 5, cw = W / cols, ch = H / rows;
+      // jittered lattice, so the pieces read as broken glass rather than tiles
+      var pts = [];
+      for (var r = 0; r <= rows; r++) {
+        pts[r] = [];
+        for (var c = 0; c <= cols; c++) {
+          var edgeX = c === 0 || c === cols, edgeY = r === 0 || r === rows;
+          pts[r][c] = [c * cw + (edgeX ? 0 : (Math.random() - 0.5) * cw * 0.7), r * ch + (edgeY ? 0 : (Math.random() - 0.5) * ch * 0.7)];
+        }
       }
-      bx += (tx - bx) * 0.1; by += (ty - by) * 0.1; b2x += (bx - b2x) * 0.05; b2y += (by - b2y) * 0.05; r += (tr - r) * 0.05;
-      var dist = Math.hypot(bx - b2x, by - b2y);
-      rev.style.setProperty("--x", bx + "px"); rev.style.setProperty("--y", by + "px"); rev.style.setProperty("--r", Math.max(1, r) + "px");
-      rev.style.setProperty("--x2", b2x + "px"); rev.style.setProperty("--y2", b2y + "px"); rev.style.setProperty("--r2", Math.max(1, r * 0.5 + Math.min(dist, 120) * 0.4) + "px");
-    })(t0);
+      var frag = document.createDocumentFragment(), anims = [];
+      var addShard = function (tri) {
+        var xs = tri.map(function (p) { return p[0]; }), ys = tri.map(function (p) { return p[1]; });
+        var x0 = Math.floor(Math.min.apply(0, xs)) - 1, y0 = Math.floor(Math.min.apply(0, ys)) - 1;
+        var x1 = Math.ceil(Math.max.apply(0, xs)) + 1, y1 = Math.ceil(Math.max.apply(0, ys)) + 1;
+        var cx = (xs[0] + xs[1] + xs[2]) / 3, cy = (ys[0] + ys[1] + ys[2]) / 3;
+        // nudge each corner away from the centroid by ~1px to hide hairline seams
+        var poly = tri.map(function (p) {
+          var dx = p[0] - cx, dy = p[1] - cy, d = Math.hypot(dx, dy) || 1;
+          return (p[0] + dx / d - x0) + "px " + (p[1] + dy / d - y0) + "px";
+        }).join(",");
+        var el = document.createElement("div");
+        el.className = "hx__shard";
+        el.style.cssText = "left:" + x0 + "px;top:" + y0 + "px;width:" + (x1 - x0) + "px;height:" + (y1 - y0) + "px;" +
+          "background-image:url('" + img.currentSrc + "');background-size:" + cr.w + "px " + cr.h + "px;" +
+          "background-position:" + (cr.x - x0) + "px " + (cr.y - y0) + "px;clip-path:polygon(" + poly + ");" +
+          "transform-origin:" + (cx - x0) + "px " + (cy - y0) + "px";
+        frag.appendChild(el);
+        // pieces settle in a soft diagonal sweep, each drifting from slightly above and turned
+        var delay = (cx / W * 0.65 + cy / H * 0.35) * 1100 + Math.random() * 380;
+        var rot = (Math.random() - 0.5) * 14, tx = (Math.random() - 0.5) * 40, ty = -30 - Math.random() * 40;
+        anims.push(function () {
+          return el.animate([
+            { opacity: 0, transform: "translate(" + tx + "px," + ty + "px) rotate(" + rot + "deg) scale(1.12)", filter: "blur(6px) brightness(1.45)" },
+            { opacity: 0.85, offset: 0.55, filter: "blur(1.5px) brightness(1.15)" },
+            { opacity: 1, transform: "none", filter: "blur(0) brightness(1)" }
+          ], { duration: 1500, delay: delay, easing: "cubic-bezier(.22,1,.36,1)", fill: "both" }).finished;
+        });
+      };
+      for (var r2 = 0; r2 < rows; r2++) {
+        for (var c2 = 0; c2 < cols; c2++) {
+          var a = pts[r2][c2], b = pts[r2][c2 + 1], cc = pts[r2 + 1][c2 + 1], d = pts[r2 + 1][c2];
+          if (Math.random() < 0.5) { addShard([a, b, cc]); addShard([a, cc, d]); } else { addShard([a, b, d]); addShard([b, cc, d]); }
+        }
+      }
+      shardBox.appendChild(frag);
+      Promise.all(anims.map(function (f) { return f(); })).then(done, done);
+    };
+
+    var nextSeason = function () {
+      if (busy || !hxVisible || document.hidden) return;
+      busy = true;
+      var from = slides[cur], to = slides[(cur + 1) % slides.length];
+      var ready = to.decode ? to.decode().catch(function () {}) : Promise.resolve();
+      ready.then(function () {
+        if (seasonLabel) {
+          var next = to.getAttribute("data-season");
+          seasonLabel.classList.add("is-out");
+          setTimeout(function () { seasonLabel.textContent = next; seasonLabel.classList.remove("is-out"); }, 900);
+        }
+        shatterIn(to, function () {
+          // shards now cover the frame pixel-for-pixel: swap underneath, then clear them
+          to.classList.add("is-on"); from.classList.remove("is-on");
+          requestAnimationFrame(function () { shardBox.innerHTML = ""; cur = slides.indexOf(to); busy = false; });
+        });
+      });
+    };
+    setInterval(nextSeason, 7500);
   }
 
   var clock = $("[data-clock]");
@@ -471,11 +512,8 @@
       });
     }
 
-    var fw = $("[data-foot-word]");
-    if (fw) {
-      fw.innerHTML = Array.from(fw.textContent).map(function (c) { return '<span style="display:inline-block">' + c + "</span>"; }).join("");
-      gsap.from(fw.children, { yPercent: 100, opacity: 0, stagger: 0.05, duration: 1.2, ease: "expo.out", scrollTrigger: { trigger: fw, start: "top 95%", once: true } });
-    }
+    var fm = $("[data-foot-mark] img");
+    if (fm) gsap.from(fm, { y: 40, opacity: 0, duration: 1.4, ease: "expo.out", scrollTrigger: { trigger: fm, start: "top 95%", once: true } });
 
     var pb = document.createElement("div"); pb.className = "progress"; document.body.appendChild(pb);
     gsap.to(pb, { scaleX: 1, ease: "none", scrollTrigger: { start: 0, end: "max", scrub: 0.3 } });
