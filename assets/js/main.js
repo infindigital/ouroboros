@@ -228,21 +228,35 @@
   }
   $$("canvas.petals").forEach(function (c) { autoRun(new Particles(c, { type: "petal", density: 0.00003, max: 40, min: 16, size: [5, 10], speed: 0.8 }), c.parentElement); });
 
-  /* ---------- HERO: season crossfade + live weather ---------- */
+  /* ---------- HERO: season crossfade with slow zoom + live weather ---------- */
   var hxEl = $(".hx");
   var slides = $$(".hx__slide"), seasonLabel = $("[data-season-label]");
+  if (hxEl && slides.length && !reduce) {
+    requestAnimationFrame(function () { requestAnimationFrame(function () { slides[0].classList.add("is-zoom"); }); });
+  }
   if (hxEl && slides.length > 1 && !reduce) {
     var cur = 0, hxVisible = true;
     if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { hxVisible = es[0].isIntersecting; }).observe(hxEl);
     // each photo holds for 2s, then a 1.4s fade (see .hx__slide in style.css)
     setInterval(function () {
       if (!hxVisible || document.hidden) return;
-      slides[cur].classList.remove("is-on");
+      var prev = slides[cur];
+      prev.classList.remove("is-on");
+      setTimeout(function () { prev.classList.remove("is-zoom"); }, 1500); // reset once it has faded out
       cur = (cur + 1) % slides.length;
-      slides[cur].classList.add("is-on");
+      slides[cur].classList.add("is-on", "is-zoom");
       if (seasonLabel) seasonLabel.textContent = slides[cur].getAttribute("data-season");
     }, 3400);
   }
+
+  /* ---------- video: play only while it is on screen ---------- */
+  $$("video[data-autoplay]").forEach(function (v) {
+    if (reduce) { v.controls = true; return; }
+    if (!("IntersectionObserver" in window)) { v.preload = "auto"; v.play().catch(function () {}); return; }
+    new IntersectionObserver(function (es) {
+      if (es[0].isIntersecting) { v.preload = "auto"; v.play().catch(function () {}); } else v.pause();
+    }, { threshold: 0.25 }).observe(v);
+  });
 
   var clock = $("[data-clock]");
   if (clock) {
