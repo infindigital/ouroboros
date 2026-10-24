@@ -1,3 +1,2 @@
-# Client source files that are too big for GitHub (100 MB limit); web versions live in assets/
-Images/*.ARW
-Images/*.mp4
+# Client source files (originals); web versions live in assets/
+Images/
