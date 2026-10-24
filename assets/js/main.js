@@ -73,6 +73,11 @@
   $$('a[href^="#"]').forEach(function (a) {
     a.addEventListener("click", function (e) {
       var id = a.getAttribute("href"); if (id.length < 2) return;
+      if (id === "#top") {
+        e.preventDefault();
+        if (lenis) lenis.scrollTo(0, { duration: 1.6 }); else window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
       var t = $(id); if (!t) return;
       e.preventDefault();
       if (lenis) lenis.scrollTo(t, { offset: -40, duration: 1.6 }); else t.scrollIntoView({ behavior: "smooth" });
@@ -508,12 +513,13 @@
     lb.addEventListener("touchend", function (e) { var dx = e.changedTouches[0].clientX - sx2; if (Math.abs(dx) > 50) show(li + (dx < 0 ? 1 : -1)); });
   }
 
-  /* ---------- booking form to WhatsApp ---------- */
+  /* ---------- booking form to email (send-enquiry.php via Resend) ---------- */
   var form = $("#bookingForm");
   if (form) {
     var today = new Date().toISOString().split("T")[0];
     $$('input[type="date"]', form).forEach(function (d) { d.min = today; });
     var ci = form.elements.checkin, co = form.elements.checkout;
+    var okHtml = $(".form__ok", form) ? $(".form__ok", form).innerHTML : "";
     if (ci && co) ci.addEventListener("change", function () { co.min = ci.value; if (co.value && co.value < ci.value) co.value = ""; });
     form.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -528,8 +534,17 @@
       var extras = $$('input[name="extras"]:checked', form).map(function (x) { return x.value; });
       if (extras.length) lines.push("Add-ons: " + extras.join(", "));
       if (v("message")) lines.push("", v("message"));
-      window.open("https://wa.me/" + WA + "?text=" + encodeURIComponent(lines.join("\n")), "_blank", "noopener");
-      var ok = $(".form__ok", form); if (ok) ok.classList.add("is-on");
+      var ok = $(".form__ok", form), btn = $('button[type="submit"]', form);
+      var waLink = "https://wa.me/" + WA + "?text=" + encodeURIComponent(lines.join("\n"));
+      var fail = function () {
+        if (ok) { ok.innerHTML = 'Sorry, we could not send your enquiry right now. Please <a href="' + waLink + '" target="_blank" rel="noopener" style="text-decoration:underline">send it on WhatsApp</a> or call us on <a href="tel:' + PHONE + '" style="text-decoration:underline">+91 78766 55220</a>.'; ok.classList.add("is-on"); }
+      };
+      if (btn) btn.disabled = true;
+      fetch("send-enquiry.php", { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } })
+        .then(function (r) { return r.json().then(function (d) { if (!r.ok || !d.ok) throw new Error(d.error || "send failed"); }); })
+        .then(function () { if (ok) { ok.innerHTML = okHtml; ok.classList.add("is-on"); } form.reset(); })
+        .catch(fail)
+        .then(function () { if (btn) btn.disabled = false; });
     });
   }
 
